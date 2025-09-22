@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram - Service Availability</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #0088cc 0%, #34aadc 100%);
+            padding: 30px 0;
+            text-align: center;
+            border-bottom: 4px solid #006699;
+            position: relative;
+        }
+        
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .language-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+        
+        .logo-text {
+            color: white;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .header-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 30px;
+            margin-top: 30px;
+        }
+        
+        h1 {
+            color: #0088cc;
+            margin-bottom: 20px;
+            font-size: 24px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .warning-box {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .warning-box h3 {
+            color: #b06d00;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .warning-box h3:before {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23b06d00"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>');
+            background-repeat: no-repeat;
+            margin-right: 8px;
+        }
+        
+        .countries-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .country-item {
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            border-left: 3px solid #0088cc;
+        }
+        
+        .country-item:before {
+            content: "";
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230088cc"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>');
+            background-repeat: no-repeat;
+            margin-right: 8px;
+        }
+        
+        .info-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .info-section h2 {
+            color: #0088cc;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .countries-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .language-switcher {
+                position: static;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="language-switcher">
+            </div>
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="white">
+                        <path d="M240,120c0,66.274-53.726,120-120,120S0,186.274,0,120S53.726,0,120,0S240,53.726,240,120z"/>
+                        <path d="M98.342,178.025l-9.831-46.225L190.16,61.206c4.523-2.846,7.34-1.123,5.362,3.847l-67.598,155.27 c-1.893,4.743-5.025,5.896-8.729,3.638l-38.011-27.553l-18.343-10.974c-4.523-2.846-3.348-5.896,2.627-5.896l25.234-23.785 L174.49,94.787c1.853-1.316,3.532-0.602,2.146,1.509L98.342,178.025z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="logo-text" id="logo-text">Telegram</div>
+            </div>
+            <p class="header-subtitle" id="header-subtitle">Secure and fast messaging app</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="content">
+            <h1 id="page-title">Service Availability Information</h1>
+            
+            <div class="warning-box">
+                <h3 id="warning-title">Important Notice</h3>
+                <p id="warning-text">Unfortunately, access to some Telegram features, including channels and public posts, is restricted in certain CIS countries in accordance with local legislation.</p>
+            </div>
+            
+            <p id="countries-intro">Currently, restrictions apply in the following countries:</p>
+            
+            <div class="countries-list">
+                <div class="country-item" id="country-1">Russian Federation</div>
+                <div class="country-item" id="country-2">Republic of Belarus</div>
+                <div class="country-item" id="country-3">Republic of Kazakhstan</div>
+                <div class="country-item" id="country-4">Kyrgyz Republic</div>
+                <div class="country-item" id="country-5">Republic of Uzbekistan</div>
+                <div class="country-item" id="country-6">Republic of Tajikistan</div>
+                <div class="country-item" id="country-7">Turkmenistan</div>
+                <div class="country-item" id="country-8">Azerbaijan Republic</div>
+                <div class="country-item" id="country-9">Republic of Armenia</div>
+                <div class="country-item" id="country-10">Republic of Moldova</div>
+            </div>
+            
+            <div class="info-section">
+                <h2 id="recommendations-title">Recommendations</h2>
+                <p id="recommendations-text">For up-to-date information on service availability in your country, please refer to official sources or use recommended access methods if provided by law.</p>
+            </div>
+            
+            <div class="info-section">
+                <h2 id="contacts-title">Contacts</h2>
+                <p id="contacts-text">For questions related to the use of Telegram, please contact our support service through the official application.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p id="footer-text">Telegram Messenger LLP • Official Notice • Updated: 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // Language data
+        const translations = {
+            en: {
+                logoText: "Telegram",
+                headerSubtitle: "Secure and fast messaging app",
+                pageTitle: "Service Availability Information",
+                warningTitle: "Important Notice",
+                warningText: "Unfortunately, access to some Telegram features, including channels and public posts, is restricted in certain CIS countries in accordance with local legislation.",
+                countriesIntro: "Currently, restrictions apply in the following countries:",
+                country1: "Russian Federation",
+                country2: "Republic of Belarus",
+                country3: "Republic of Kazakhstan",
+                country4: "Kyrgyz Republic",
+                country5: "Republic of Uzbekistan",
+                country6: "Republic of Tajikistan",
+                country7: "Turkmenistan",
+                country8: "Azerbaijan Republic",
+                country9: "Republic of Armenia",
+                country10: "Republic of Moldova",
+                recommendationsTitle: "Recommendations",
+                recommendationsText: "For up-to-date information on service availability in your country, please refer to official sources or use recommended access methods if provided by law.",
+                contactsTitle: "Contacts",
+                contactsText: "For questions related to the use of Telegram, please contact our support service through the official application.",
+                footerText: "Telegram Messenger LLP • Official Notice • Updated: 2023"
+            },
+            ru: {
+                logoText: "Telegram",
+                headerSubtitle: "Безопасный и быстрый мессенджер для общения",
+                pageTitle: "Информация о доступности сервиса",
+                warningTitle: "Важное уведомление",
+                warningText: "К сожалению, доступ к некоторым функциям Telegram, включая каналы и публичные посты, ограничен в отдельных странах СНГ в соответствии с местным законодательством.",
+                countriesIntro: "В настоящее время ограничения действуют в следующих странах:",
+                country1: "Российская Федерация",
+                country2: "Республика Беларусь",
+                country3: "Республика Казахстан",
+                country4: "Кыргызская Республика",
+                country5: "Республика Узбекистан",
+                country6: "Республика Таджикистан",
+                country7: "Туркменистан",
+                country8: "Азербайджанская Республика",
+                country9: "Республика Армения",
+                country10: "Республика Молдова",
+                recommendationsTitle: "Рекомендации",
+                recommendationsText: "Для получения актуальной информации о доступности сервиса в вашей стране, обратитесь к официальным источникам или используйте рекомендованные методы доступа, если таковые предусмотрены законодательством.",
+                contactsTitle: "Контакты",
+                contactsText: "По вопросам, связанным с использованием Telegram, обращайтесь в нашу службу поддержки через официальное приложение.",
+                footerText: "Telegram Messenger LLP • Официальное уведомление • Обновлено: 2023"
+            }
+        };
+
+        // Set default language to English
+        let currentLang = 'en';
+        
+        // Function to change language
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            
+            // Update all text elements
+            for (const key in translations[lang]) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = translations[lang][key];
+                }
+            }
+            
+            // Update active button state
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        }
+        
+        // Add event listeners to language buttons
+        document.getElementById('lang-en').addEventListener('click', () => changeLanguage('en'));
+        
+        // Initialize with English language
+        changeLanguage('en');
+        
+        // Add active state styling
+        const style = document.createElement('style');
+        style.textContent = `
+            .language-btn.active {
+                background: rgba(255, 255, 255, 0.4) !important;
+                font-weight: 600;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
